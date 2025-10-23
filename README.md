@@ -104,13 +104,44 @@ By delivering a comprehensive analytical framework, the project will enable TheL
 # Phase 1
 ## Environment Setup
 
+I ran **PostgresSQL** and **pgAdmin4** with Docker Compose for a reproducible, portable setup.
+
+- **Postgres** stores the project data; it is exposed on host port 5433 to avoid clashing with any local Postgres
+- **pgAdmin** gives a friendly DB GUI at http://localhost:8080
+- A **healthcheck** waits for Postgres to be ready before pgAdmin starts, making startup more relaible.
 ### a. Launch docker and verify details 
 
 ``docker --version``\
 ``docker info``\
 ``docker ps``
 
-### b. Launch PostgresSQL Container 
 
+## Project Structure
+````
+lookecommerce-sql-analytics/
+├── docker-compose.yml
+├── README.md
+├── data/
+│   ├── raw/
+│   ├── processed/
+│   └── schema/
+├── sql/
+│   ├── 01_schema/
+│   ├── 02_ingestion/
+│   ├── 03_exploration/
+│   ├── 04_analysis/
+│   └── 05_advanced/
+├── scripts/
+│   ├── etl/
+│   ├── validation/
+│   └── utilities/
+├── docs/
+├── tests/
+└── screenshots/
+````
 
-
+Troubleshooting
+- **Port already in use:** change to ``- "5434:5432"`` and use 5434 in your IDE.
+- **pgAdmin can’t connect:** ensure you used ``Host=db, Port=5432`` inside pgAdmin.
+- **Healthcheck keeps failing:** docker compose logs -f db and verify credentials/DB name.
+- **Windows volume errors:** you’re using named volumes (good). If you later bind-mount host folders, use absolute paths.
