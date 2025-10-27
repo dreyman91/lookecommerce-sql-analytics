@@ -1,6 +1,7 @@
 services:
   db:
     image: postgres:15
+    container_name: lookecommerce-sql-analytics-db-1
     restart: unless-stopped
     environment:
       POSTGRES_USER: ecom_analyst
@@ -10,6 +11,7 @@ services:
       - "5433:5432"
     volumes:
       - lookecommerce_data:/var/lib/postgresql/data
+      - ./sql:/app/sql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ecom_analyst -d lookecommerce || exit 1"]
       interval: 5s

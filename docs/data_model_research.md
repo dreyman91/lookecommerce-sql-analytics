@@ -26,3 +26,6 @@ and user interactions. The goal is to track transactions, inventory management, 
 | Inventory_Items      | Records representing stock units        | Many-to-one with Products and Distribution Centers |
 | Events               | Web tracking data for user interactions | Many-to-one with Users                             |
 | Distribution_Centers | Warehouses or stores stocking products  | One-to-many with Inventory_Items                   |
+
+
+![ER-Diagram](images/data_model_research.png)

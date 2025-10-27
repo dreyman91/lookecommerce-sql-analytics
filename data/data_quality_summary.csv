@@ -1,0 +1,8 @@
+table,rows,columns,missing_values,duplicates,quality_score
+users,100000,15,958,0,99.94
+products,29120,9,26,0,99.99
+orders,125226,9,237803,0,78.9
+order_items,181759,11,344923,0,82.75
+inventory_items,490705,12,309376,0,94.75
+events,2431963,13,1148751,0,96.37
+distribution_centers,10,4,0,0,100.0
