@@ -108,15 +108,15 @@ def main():
     print('=' * 70)
 
     # Define data directory and files
-    data_dir = "data/raw"
+    data_dir = "data/processed"
     files = {
-        'users.csv': 'users',
-        'products.csv': 'products',
-        'orders.csv': 'orders',
-        'order_items.csv': 'order_items',
-        'inventory_items.csv': 'inventory_items',
-        'events.csv': 'events',
-        'distribution_centers.csv': 'distribution_centers'
+        'users_cleaned.csv': 'users',
+        'products_cleaned.csv': 'products',
+        'orders_cleaned.csv': 'orders',
+        'order_items_cleaned.csv': 'order_items',
+        'inventory_items_cleaned.csv': 'inventory_items',
+        'events_cleaned.csv': 'events_cleaned',
+        'distribution_centers_cleaned.csv': 'distribution_centers'
     }
 
     # Run quality checks
@@ -137,9 +137,10 @@ def main():
         print(summary_df.to_string(index=False))
 
         # Save Summary
+        timestamp = datetime.now().strftime('%Y-%m-%d %H-%M-%S')
         os.makedirs('data', exist_ok=True)
-        summary_df.to_csv('data/data_quality_summary.csv', index=False)
-        print(f"\n Summary saved to: data/data_quality_summary.csv")
+        summary_df.to_csv(f'data/data_quality_summary_{timestamp}.csv', index=False)
+        print(f"\n Summary saved to: data/.csv")
 
         # Overall assessment
         avg_quality = summary_df['quality_score'].mean()

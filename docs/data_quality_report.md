@@ -34,25 +34,56 @@ This report documents the data quality assessment performed on 7 raw CSV files f
 
 ### Users Table
 - **Issues Found:**
-  - 120 missing values in 'age' column (0,96%)
+  - 958 missing values in 'city' column (0,96%)
 - **Severity:** Low
-- **Action Required:** Remove duplicates, decide on handling missing ages
+- **Action Required:** to be decided
 
 ### Products Table
-- **Issues Found:** None
-- **Status:** ✅ Ready for loading
+- **Issues Found:** 
+    - 2 missing values in the 'name' column
+    - 24 missing values in the 'brand' column
+- **Severity:** Low
+- **Action Required:** to be decided
 
 ### Orders Table
 - **Issues Found:**
-  - 450 missing values in 'delivered_at' (2.25% - expected for in-transit orders)
-  - 12 duplicate order_ids (data quality issue)
+  - 112696 missing values found in the 'returned_at' column
+  - 43765 missing values found in the 'shipped_at' column
+  - 81342 missing values found in the 'delivered_at' column
 - **Severity:** Medium
-- **Action Required:** Investigate and remove duplicate order_ids
+- **Action Required:** Investigate, 'returned_at' could be missing lots of values  because items were not returned.
 
-[Continue for each table...]
+### Order_Items Table
+- **Issues Found:**
+  - 163527 missing values found in the 'returned_at' column
+  - 43765 missing values found in the 'shipped_at' column
+  - 117918 missing values found in the 'delivered_at' column
+- **Severity:** Medium
+- **Action Required:** Investigate
 
 ---
+### Inventory_Items Table
+- **Issues Found:**
+  - 308946 missing values found in the 'sold_at' column
+  - 29 missing values found in the 'product_name' column
+  - 401 missing values found in the 'product_brand' column
+- **Severity:** Small
+- **Action Required:** Investigate
 
+---
+### Events Table
+- **Issues Found:**
+  - 1125671 missing values found in the 'user_id' column
+  - 23080 missing values found in the 'city' column
+- **Severity:** Small
+- **Action Required:** Investigate
+
+---
+### Distribution_Centers Table
+- **Issues Found:**
+    - No Issues
+
+---
 ## Data Type Validation
 
 - ✅ All date columns parseable to timestamp
@@ -66,20 +97,17 @@ This report documents the data quality assessment performed on 7 raw CSV files f
 
 - ✅ All prices are non-negative
 - ✅ Order dates are within expected range (2019-2024)
-- ⚠️  Found 15 orders where `delivered_at < shipped_at` (data inconsistency)
-- ⚠️  Found 8 users with age < 18 (violates business rule)
 
 ---
 
 ## Recommendations
 
 1. **Critical Issues (Must Fix):**
-   - Remove duplicate order_ids in orders table
+   - Investigate missing values
    - Fix date inconsistencies (delivered before shipped)
    - Remove users with age < 18
 
 2. **Medium Priority:**
-   - Remove duplicate emails in users table
    - Standardize text fields (trim whitespace, proper case)
 
 3. **Low Priority:**
@@ -90,14 +118,4 @@ This report documents the data quality assessment performed on 7 raw CSV files f
 
 ## Decision
 
-**Proceed to Phase 3.3 (Data Cleaning)?** [YES / NO]
-
-**Justification:** Data quality score of 98.9% is acceptable, but identified issues must be addressed before loading to maintain database integrity.
-
----
-
-## Next Steps
-
-1. Create data cleaning script addressing all critical issues
-2. Re-run quality assessment on cleaned data
-3. Proceed to ETL pipeline if quality >= 95%
+**Proceed to Phase 3.3 (Data Cleaning)

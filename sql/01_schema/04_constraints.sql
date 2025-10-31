@@ -1,47 +1,71 @@
--- Foreign Keys
+-- INVENTORY_ITEMS → PRODUCTS
+ALTER TABLE core.inventory_items
+  DROP CONSTRAINT IF EXISTS fk_inv_products;
+ALTER TABLE core.inventory_items
+  ADD CONSTRAINT fk_inv_products
+  FOREIGN KEY (product_id)
+  REFERENCES core.products(product_id)
+  ON UPDATE CASCADE ON DELETE RESTRICT;
 
--- Inventory_Items -> Products, Distribution_Centers
-alter table core.inventory_items
-    add constraint  fk_inv_products
-    foreign key (product_id) references core.products(product_id)
-    on update cascade  on delete restrict;
+-- INVENTORY_ITEMS → DISTRIBUTION_CENTERS
+ALTER TABLE core.inventory_items
+  DROP CONSTRAINT IF EXISTS fk_inv_center;
+ALTER TABLE core.inventory_items
+  ADD CONSTRAINT fk_inv_center
+  FOREIGN KEY (product_distribution_center_id)
+  REFERENCES core.distribution_centers(center_id)
+  ON UPDATE CASCADE ON DELETE SET NULL;
 
-alter table core.inventory_items
-    add constraint fk_inv_center
-    foreign key (product_distribution_center_id) references core.distribution_centers(center_id)
-    on update cascade on delete set null;
+-- ORDERS → USERS
+ALTER TABLE core.orders
+  DROP CONSTRAINT IF EXISTS fk_orders_user;
+ALTER TABLE core.orders
+  ADD CONSTRAINT fk_orders_user
+  FOREIGN KEY (user_id)
+  REFERENCES core.users(user_id)
+  ON UPDATE CASCADE ON DELETE RESTRICT;
 
--- orders → users
+-- ORDER_ITEMS → ORDERS
+ALTER TABLE core.order_items
+  DROP CONSTRAINT IF EXISTS fk_oi_order;
+ALTER TABLE core.order_items
+  ADD CONSTRAINT fk_oi_order
+  FOREIGN KEY (order_id)
+  REFERENCES core.orders(order_id)
+  ON UPDATE CASCADE ON DELETE CASCADE;
 
-alter table core.orders
-    add constraint  fk_orders_user
-    foreign key (user_id) references  core.users(user_id)
-    on update cascade on delete restrict;
+-- ORDER_ITEMS → USERS
+ALTER TABLE core.order_items
+  DROP CONSTRAINT IF EXISTS fk_oi_user;
+ALTER TABLE core.order_items
+  ADD CONSTRAINT fk_oi_user
+  FOREIGN KEY (user_id)
+  REFERENCES core.users(user_id)
+  ON UPDATE CASCADE ON DELETE RESTRICT;
 
--- order_items → orders, users, products, inventory_items
+-- ORDER_ITEMS → PRODUCTS
+ALTER TABLE core.order_items
+  DROP CONSTRAINT IF EXISTS fk_oi_product;
+ALTER TABLE core.order_items
+  ADD CONSTRAINT fk_oi_product
+  FOREIGN KEY (product_id)
+  REFERENCES core.products(product_id)
+  ON UPDATE CASCADE ON DELETE RESTRICT;
 
-alter table core.order_items
-  add constraint fk_oi_order
-  foreign key (order_id) references core.orders(order_id)
-  on update cascade on delete cascade;
+-- ORDER_ITEMS → INVENTORY_ITEMS
+ALTER TABLE core.order_items
+  DROP CONSTRAINT IF EXISTS fk_oi_inventory;
+ALTER TABLE core.order_items
+  ADD CONSTRAINT fk_oi_inventory
+  FOREIGN KEY (inventory_item_id)
+  REFERENCES core.inventory_items(inventory_item_id)
+  ON UPDATE CASCADE ON DELETE SET NULL;
 
-alter table core.order_items
-  add constraint fk_oi_user
-  foreign key (user_id) references core.users(user_id)
-  on update cascade on delete restrict;
-
-alter table core.order_items
-  add constraint fk_oi_product
-  foreign key (product_id) references core.products(product_id)
-  on update cascade on delete restrict;
-
-alter table core.order_items
-  add constraint fk_oi_inventory
-  foreign key (inventory_item_id) references core.inventory_items(inventory_item_id)
-  on update cascade on delete set null;
-
--- events → users (nullable)
-alter table core.events
-  add constraint fk_events_user
-  foreign key (user_id) references core.users(user_id)
-  on update cascade on delete set null;
+-- EVENTS → USERS (nullable)
+ALTER TABLE core.events
+  DROP CONSTRAINT IF EXISTS fk_events_user;
+ALTER TABLE core.events
+  ADD CONSTRAINT fk_events_user
+  FOREIGN KEY (user_id)
+  REFERENCES core.users(user_id)
+  ON UPDATE CASCADE ON DELETE SET NULL;
